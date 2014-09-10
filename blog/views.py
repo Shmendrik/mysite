@@ -50,7 +50,7 @@ def add_comment(request, post_id):
 
 def main(request):
     full_post_list = Post.objects.all().order_by("-pub_date")
-    paginator = Paginator(full_post_list, 1)
+    paginator = Paginator(full_post_list, 10)
 	
     try: 
     	page = request.GET.get('page')
