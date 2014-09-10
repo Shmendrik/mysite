@@ -4,6 +4,7 @@ from django.db import models
 
 import datetime
 
+#our blog
 class Post(models.Model):
 	# title post
     title = models.CharField(max_length=60)
@@ -14,3 +15,13 @@ class Post(models.Model):
 
     def __unicode__(self):
         return self.title
+
+#our blog comments
+class Comment(models.Model):
+    post = models.ForeignKey(Post)
+    comment_author = models.CharField(max_length=60)
+    text = models.TextField()
+    pub_date = models.DateTimeField(auto_now_add=True)
+  	
+    def __unicode__(self):
+        return self.post
