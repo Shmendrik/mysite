@@ -17,7 +17,7 @@ class Post(models.Model):
         #for announce in post loads
         num = 300
         try:
-            num = self.text[:num].index(u'.')
+            num = self.text[:num].rindex(u'.')
         except: num = (len(self.text) if len(self.text) < num else num)
         return self.text[:num+1]
 

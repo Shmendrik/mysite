@@ -1,3 +1,16 @@
+<!-- {% if full_post_list %}
+    <ul>
+    {% for post in full_post_list %}
+        <p>{{ post.pub_date }}</p>
+        <h2><a href="/blog/{{ post.id }}/">{{ post.title }}</a></h2>
+        <p>{{ post.text }}</p>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No posts were added.</p>
+{% endif %}
+ -->
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,6 +33,16 @@
 
             <div class="row" id="content">
                 <div class="span3 sidebar">
+<!--                     {% if full_post_list.object_list and full_post_list.paginator.num_pages > 1 %}
+                        <ul class="pager">
+                        {% if full_post_list.has_previous %}
+                            <li><a href="?page={{ full_post_list.previous_page_number }}">Назад</a></li>
+                        {% endif %}
+
+                        {% if full_post_list.has_next %}
+                            <li><a href="?page={{ full_post_list.next_page_number }}">Далее</a></li>
+                        {% endif %}
+                    {% endif %} -->
                 </div>
                 <div class="span9">
                     <div class="row posts">
@@ -40,6 +63,7 @@
 
                     <div class="pagination">
                         <ul>
+                            <!-- <li><a href="#">Prev</a></li> -->
                             {% if full_post_list.has_previous %}
                                 <li><a href="?page={{ full_post_list.previous_page_number }}">Назад</a></li>
                             {% else %}
