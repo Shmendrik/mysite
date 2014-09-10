@@ -26,12 +26,27 @@
                             <h3>
                                 <a href="{% url 'blog:detail' post.id %}">{{ post.title }}</a>
                             </h3>
-                            <p>{{ post.pub_date }}</p>
-                            <p>{{ post.text}}</p>            
+                                <p>{{ post.pub_date }}</p>
+                                <p>{{ post.text}}</p>            
 
                         </div>
                     </div>
-                </div>                
+                </div>   
+                                                {% if comment_list %}
+                        <h4>Комментарий:</h4>                   
+                        {% for comment in comment_list %}
+                            <ul>
+                                <div class="row" id="comment">
+                                    <div class="comment">
+                                        <div class="time">{{ comment.pub_date }}</div>
+                                        <h5><div class="title">{{ comment.comment_author }}</div></h5>
+                                        <div class="text">{{ comment.text }}</div>
+                                    </div>
+                                </comment>
+                            </ul>
+                        {% endfor %}
+                    {% endif %}
+
             </div>
 
             <div class="row" id="footer">footer

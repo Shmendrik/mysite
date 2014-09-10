@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 
-from blog.models import Post
+from blog.models import Post, Comment
 
 from django.http import HttpResponse
 from django.template import RequestContext, loader
@@ -62,9 +62,13 @@ def main(request):
 def detail(request, post_id):
     try:
         post = Post.objects.get(pk=post_id)
-
+    	comment_list = Comment.objects.filter(post=post)
+    	return_path  = request.META.get('HTTP_REFERER','/')
     except Post.DoesNotExist:
         raise Http404
+
     return render(request, 'blog/detail.html', {
     	'post': post, 
+    	'comment_list': comment_list, 
+    	'returner':return_path
     	})
