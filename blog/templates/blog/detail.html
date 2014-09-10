@@ -32,7 +32,21 @@
                         </div>
                     </div>
                 </div>   
-                                                {% if comment_list %}
+                <h4>Добавить комментарий:</h4>
+                <form action="{% url 'blog:add_comment' post.id %}" method="post">
+                {% csrf_token %}
+
+                <div class="input-group">
+                Имя: {{ comment_form.comment_author }}
+                </div>
+
+                <div class="input-group">
+                {{ comment_form.text }}
+                </div>
+                <button type="submit" class="btn">Отправить</button>
+
+
+                {% if comment_list %}
                         <h4>Комментарий:</h4>                   
                         {% for comment in comment_list %}
                             <ul>

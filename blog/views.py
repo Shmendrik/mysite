@@ -8,33 +8,45 @@ from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.http import Http404
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.shortcuts import render
+from django.forms import ModelForm
+from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.core.urlresolvers import reverse
 
 
-
-# from django.template import RequestContext, loader
-# from django.http import HttpResponse
-# #detail
-# from django.http import Http404
-# from django.shortcuts import render
-# #comments
-# from django.forms import ModelForm
-# from django.shortcuts import redirect
-# from django.http import HttpResponseRedirect
-
-# #===
-# from django.shortcuts import get_object_or_404, render
-
-# from django.core.paginator import Paginator, InvalidPage, EmptyPage
-# from django.core.urlresolvers import reverse
-
-# from blog.models import Post
-# from blog.models import Comment
-
-
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        exclude = ["post"]
 
 def add_comment(request, post_id):
 	#add new comment to our post
-	return HttpResponse("Comment was added")
+	p = request.POST
+
+	if p.has_key("text") and p["text"]:
+		
+		# if has no author then name him myself
+		author = "Nemo"
+		if p["comment_author"]: 
+			author = p["comment_author"]
+		comment = Comment(post=Post.objects.get(pk=post_id))
+		
+		# save comment form
+		cf = CommentForm(p, instance=comment)
+		cf.fields["comment_author"].required = False
+		comment = cf.save(commit=False)
+		
+		# save comment instance
+		comment.comment_author = author
+		notify = True
+
+		comment.save()	
+
+	return_path  = redirect(request.META.get('HTTP_REFERER','/'))
+
+	return return_path
 
 def main(request):
     full_post_list = Post.objects.all().order_by("-pub_date")
@@ -70,5 +82,6 @@ def detail(request, post_id):
     return render(request, 'blog/detail.html', {
     	'post': post, 
     	'comment_list': comment_list, 
+    	'comment_form': CommentForm, 
     	'returner':return_path
     	})
