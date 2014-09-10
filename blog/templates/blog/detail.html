@@ -8,6 +8,9 @@
         <link href="{% static 'blog/style/style.css' %}" rel="stylesheet" media="screen">
         <script src="{% static 'blog/jQuery/jquery-1.11.1.min.js' %}" type='text/javascript'></script>
         <script src="{% static 'blog/bootstrap/js/bootstrap.min.js' %}" type='text/javascript'></script>
+        <script src="{% static 'blog/js/random.js' %}" type='text/javascript'></script>
+        </script>
+
     </head>    
     <body> 
         <div class="container">
@@ -18,35 +21,44 @@
             </div>
 
             <div class="row" id="content">
-                <div class="span3 sidebar">sidebar
-                </div>
-                <div class="span9">
-                    <div class="row posts">posts
-                        <div class="span7">
-                            <h3>
-                                <a href="{% url 'blog:detail' post.id %}">{{ post.title }}</a>
-                            </h3>
-                                <p>{{ post.pub_date }}</p>
-                                <p>{{ post.text}}</p>            
-
+                <div class="span3 sidebar">
+                    <div class="sidebar_nav">
+                        <div id="fixed">
+                            <button class="btn" onclick="history.back(-1)">        
+                                <a>Назад</a>
+                            </button>
                         </div>
                     </div>
-                </div>   
-                <h4>Добавить комментарий:</h4>
-                <form action="{% url 'blog:add_comment' post.id %}" method="post">
-                {% csrf_token %}
-
-                <div class="input-group">
-                Имя: {{ comment_form.comment_author }}
                 </div>
+                <div class="span9">
+                    <div class="row posts">
+                        <div class="span7">
+                            <div class="row posts">
+                                <h3>
+                                <a href="{% url 'blog:detail' post.id %}">{{ post.title }}</a>
+                                </h3>
+                                <p>{{ post.pub_date }}</p>
+                                <p>{{ post.text}}</p>            
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="input-group">
-                {{ comment_form.text }}
-                </div>
-                <button type="submit" class="btn">Отправить</button>
+                    <h4>Добавить комментарий:</h4>
+                    <form action="{% url 'blog:add_comment' post.id %}" method="post">
+                    {% csrf_token %}
+
+                    <div class="input-group">
+                      Имя: {{ comment_form.comment_author }}
+                    </div>
+
+                    <div class="input-group">
+                        {{ comment_form.text }}
+                    </div>
+
+                    <button type="submit" class="btn">Отправить</button>
 
 
-                {% if comment_list %}
+                    {% if comment_list %}
                         <h4>Комментарий:</h4>                   
                         {% for comment in comment_list %}
                             <ul>
@@ -61,12 +73,25 @@
                         {% endfor %}
                     {% endif %}
 
+                </div>
             </div>
 
-            <div class="row" id="footer">footer
+            {% if full_post_list.object_list and full_post_list.paginator.num_pages > 1 %}
+                <ul class="pager">
+                {% if full_post_list.has_previous %}
+                    <li><a href="?page={{ full_post_list.previous_page_number }}">Назад</a></li>
+                {% endif %}
+
+                {% if full_post_list.has_next %}
+                    <li><a href="?page={{ full_post_list.next_page_number }}">Далее</a></li>
+                {% endif %}
+                </ul>
+            {% endif %}
+
+            <div class="row" id="footer">
                 <div class="span12"></div>
             </div>
-        </div>
 
+        </div>
     </body>
 </html>
