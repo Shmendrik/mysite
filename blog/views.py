@@ -10,6 +10,10 @@ from django.http import Http404
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 
+def add_comment(request, post_id):
+	#add new comment to our post
+	return HttpResponse("Comment was added")
+
 def main(request):
     full_post_list = Post.objects.order_by('-pub_date')[:3]
     paginator = Paginator(full_post_list, 1)

@@ -13,6 +13,14 @@ class Post(models.Model):
     # publication date
     pub_date = models.DateTimeField('date published')
 
+    def announcer(self):
+        #for announce in post loads
+        num = 300
+        try:
+            num = self.text[:num].index(u'.')
+        except: num = (len(self.text) if len(self.text) < num else num)
+        return self.text[:num+1]
+
     def __unicode__(self):
         return self.title
 
