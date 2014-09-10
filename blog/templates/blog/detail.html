@@ -23,6 +23,12 @@
                 <div class="span9">
                     <div class="row posts">posts
                         <div class="span7">
+                            <h3>
+                                <a href="{% url 'blog:detail' post.id %}">{{ post.title }}</a>
+                            </h3>
+                            <p>{{ post.pub_date }}</p>
+                            <p>{{ post.text}}</p>            
+
                         </div>
                     </div>
                 </div>                
